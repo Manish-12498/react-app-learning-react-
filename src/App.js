@@ -15,7 +15,11 @@ function App() {
     setAlert({
       msg:message,
       type:type
-    })
+    });
+
+    setTimeout(() => {
+      setAlert(null);
+    },1000 );
 
   }
 
@@ -35,7 +39,7 @@ function App() {
     <>
       <Navbar title="Anylizer" HomeButton="Home " About="About" mode={mode} toggleMode={toggleMode} />
       <Alert alert={alert} />
-      <TextArea heading="Enter The Text " mode={mode} toggleMode={toggleMode} />
+      <TextArea heading="Enter The Text " mode={mode}  toggleMode={toggleMode}  showAlert={showAlert}/>
       <About mode={mode} toggleMode={toggleMode} />
       
 

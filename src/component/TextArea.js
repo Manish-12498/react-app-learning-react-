@@ -48,6 +48,7 @@ export default function TextArea(props) {
     }
     const clear = () => {
         setText("");
+        props.showAlert("Cleared Text Area","success");
     }
     const copyFunction=()=>{
         var text= document.getElementById("exampleFormControlTextarea1");
