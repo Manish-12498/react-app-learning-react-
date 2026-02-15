@@ -73,7 +73,7 @@ export default function TextArea(props) {
         
         <div className={`text-${props.mode==='light'?"dark":"light"} bg-${props.mode==='light'?"light":"dark"}`}>
             <br />
-            <h1>{props.heading}</h1>
+            <h1 className='mx-10'>{props.heading}</h1>
             <div className="mb-3">
                 <textarea className={`form-control text-${props.mode==='light'?'dark':'light'} bg-${props.mode==='light'?'light':'dark'}`} id="exampleFormControlTextarea1" rows="9" value={text} onChange={handleOnChange} placeholder={` Enter your text-${props.mode==='light'?'dark':'light'}`} ></textarea>
 

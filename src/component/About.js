@@ -6,8 +6,7 @@ import { useState } from "react";
 export default function About(props) {
   return (
     <>
-    <br />
-    <hr />
+    
       <section  id ="about" className={`py-3 py-md-5 text-${props.mode==='light'?'dark':'light'} bg-${props.mode==='light'?'light':'dark'}`} >
 
         {/* Image Section */}
