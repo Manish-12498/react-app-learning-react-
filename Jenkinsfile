@@ -4,36 +4,68 @@ pipeline {
         label 'mannu'
     }
 
+    options {
+        timestamps()
+        disableConcurrentBuilds()
+    }
+
     stages {
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/Manish-12498/react-app-learning-react-.git'
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm ci'
-            }
-        }
-
-        stage('Build React App') {
-            steps {
-                sh 'npm run build'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t react-app-learning:latest .'
+                sh '''
+                    docker build -t textutil-vite:latest .
+                '''
+            }
+        }
+
+        stage('Stop Old Container') {
+            steps {
+                sh '''
+                    docker rm -f textutil-vite || true
+                '''
+            }
+        }
+
+        stage('Deploy React App') {
+            steps {
+                sh '''
+                    docker run -d \
+                      --name textutil-vite \
+                      --restart unless-stopped \
+                      -p 80:80 \
+                      textutil-vite:latest
+                '''
+            }
+        }
+
+        stage('Verify Deployment') {
+            steps {
+                sh '''
+                    for i in $(seq 1 15); do
+                        if curl -fsS http://localhost/ -o /dev/null; then
+                            echo "Vite React app is running on port 80"
+                            exit 0
+                        fi
+                        sleep 2
+                    done
+
+                    docker logs textutil-vite
+                    exit 1
+                '''
             }
         }
     }
 
     post {
         success {
-            echo 'React app built successfully!'
+            echo 'Vite React deployment successful!'
         }
 
         failure {
